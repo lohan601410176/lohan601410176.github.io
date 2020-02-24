@@ -1,15 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://https://lohan601410176.github.io</id>
-    <title>Gridea</title>
-    <updated>2020-02-24T08:35:06.393Z</updated>
+    <title>刘艺萌的博客</title>
+    <updated>2020-02-24T08:52:13.584Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://https://lohan601410176.github.io"/>
     <link rel="self" href="https://https://lohan601410176.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>后海有树的院子，
+夏代有工的玉，
+此时此刻的云，
+二十来岁的你。</subtitle>
     <logo>https://https://lohan601410176.github.io/images/avatar.png</logo>
     <icon>https://https://lohan601410176.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2020, 刘艺萌的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[iOS中Block的类型]]></title>
+        <id>https://https://lohan601410176.github.io/post/ios-zhong-block-de-lei-xing/</id>
+        <link href="https://https://lohan601410176.github.io/post/ios-zhong-block-de-lei-xing/">
+        </link>
+        <updated>2020-02-24T08:43:40.000Z</updated>
+        <content type="html"><![CDATA[<h5 id="block常见类型3种">block常见类型(3种)：</h5>
+<ul>
+<li>
+<p><code>NSGlobalBlock：全局的静态block 没有访问外部变量</code><br>
+<img src="https://upload-images.jianshu.io/upload_images/1668054-748e66bd3f5c522a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" loading="lazy"></p>
+</li>
+<li>
+<p><code>NSMallocBlock 保存在堆中的block 此类型blcok是用copy修饰出来的block 它会随着对象的销毁而销毁，只要对象不销毁，我们就可以调用的到在堆中的block</code></p>
+</li>
+</ul>
+<pre><code>@interface Person : NSObject
+@property(nonatomic,copy) void(^mallocBlock)(void);
+@end
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/1668054-438663d87e97788f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" loading="lazy"></figure>
+<ul>
+<li><code>NSStackBlock：保存在栈中的block，没有用copy去修饰并且访问了外部变量，会在函数调用结束被销毁 （但是要在MRC模式下）</code> <a href="https://www.jianshu.com/p/b37fc6de5e15">ARC改MRC方法</a><br>
+在ARC中的NSStackBlock：</li>
+</ul>
+<pre><code>需要用assign去修饰Block（测试用，工作中用copy最好）
+@property(nonatomic,assign) void(^mallocBlock)(void);
+NSLog(@&quot;%@&quot;,[person.mallocBlock class]);
+//打印结果
+block[22533:1198598] __NSStackBlock__
+//注意一下，在之前iOS8之前，如果用retain去修饰Block和打印结果和assign是一样的
+//但是之后retain修饰Block打印结果就变成了__NSMallocBlock__(应该是苹果修改了)
+//只是警告：Retain'ed block property does not copy the block - use copy attribute instead 让我们使用copy去修饰
+// 但是用strong去修饰Block，打印结果和copy一致，并且不会报错
+</code></pre>
+<pre><code>NSLog(@&quot;StackBlock 当前类型-- %@&quot;,^{
+        NSLog(@&quot;%d&quot;,a);
+    });
+//打印结果：  
+// StackBlock 当前类型-- &lt;__NSStackBlock__: 0x7ffee1f3ca40&gt;
+</code></pre>
+<h3 id="block在arc下的内存管理">Block在ARC下的内存管理</h3>
+<p>在ARC默认情况下,Block的内存存储在堆中,ARC会自动进行内存管理,程序员只需要避免循环引用即可</p>
+<p>在Block的内存存储在堆中时,如果在Block中引用了外面的对象,会对所引用的对象进行强引用,但是在Block被释放时会自动去掉对该对象的强引用,所以不会造成内存泄漏</p>
+<p>如果对象内部有一个Block属性,而在Block内部又访问了该对象,那么会造成循环引用,解决循环引用的办法是使用一个弱引用的指针指向该对象,然后在Block内部使用该弱引用指针来进行操作,这样避免了Block对对象进行强引用<br>
+解决循环引用的方式一：</p>
+<pre><code>@interface Person : NSObject
+@property(nonatomic,copy) void(^mallocBlock)(void);
+@property(nonatomic,copy) NSString * str;
+@end
+</code></pre>
+<pre><code>  Person * person = [[Person alloc] init];
+  person.str = @&quot;外部属性&quot;;
+  __weak Person * personWeak = person;
+  person.mallocBlock = ^{
+        NSLog(@&quot;访问外部变量 %@ 则变成mallocBlock&quot;,personWeak.str);
+  };
+  person.mallocBlock();
+</code></pre>
+<pre><code>@implementation Person
+-(void)dealloc{
+    NSLog(@&quot;释放成功&quot;);
+}
+@end
+</code></pre>
+<p>解决循环引用的方式二：</p>
+<pre><code> Person * p = [[Person alloc] init];
+    //这里用 __block去修饰，是为了在block内部可以对weakP进行修改
+    __block Person * weakP = p;
+    p.myBlock = ^{
+         NSLog(@&quot;%@&quot;,weakP.myBlock);
+        //通过__block修饰可以对weakP进行修改
+        weakP = nil;
+    };
+    p.myBlock();
+</code></pre>
+<p>解决循环引用的方式三(优雅的方式)：</p>
+<pre><code>@interface Person : NSObject
+//定义一个有参数的block类型的成员属性，参数类型是Person（也就是自身的类型）
+@property(nonatomic,copy) void(^myBlock)(Person*);
+@end
+
+</code></pre>
+<pre><code>   Person * p = [[Person alloc] init];
+    p.myBlock = ^(Person * weakP) {
+        NSLog(@&quot;%@&quot;,weakP);
+    };
+     //需要传入一个类型为Person的参数，将p传进去
+    p.myBlock(p);
+</code></pre>
+<h4 id="block代码块中修改局部变量">block代码块中修改<code>局部变量</code></h4>
+<p>直接在block代码中修改局部变量，会报出错误！<br>
+错误信息：Variable is not assignable (missing __block type specifier)<br>
+变量不可分配(缺少__block类型说明符)<br>
+<img src="https://upload-images.jianshu.io/upload_images/1668054-5c71df6f2294bff9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" loading="lazy"><br>
+所以正确的修改方式是 在局部变量前加__block</p>
+<pre><code>//__block 底层实现：用__block修饰的对象，会修改它的指针地址
+ __block  int a =1;
+    NSLog(@&quot;外部%p&quot;,&amp;a);
+    void(^myBlock)(void) = ^{
+            a++;
+         NSLog(@&quot;%d&quot;,a);
+        NSLog(@&quot;内部%p&quot;,&amp;a);
+    };
+    myBlock();
+NSLog(@&quot;最后外部%p&quot;,&amp;a);
+//打印结果：
+//外部0x7ffee6e21a28
+// 2
+// 内部0x60400023b9f8
+//最后外部0x60400023b9f8
+可以很清楚的看到，用__block修饰以后a的指针地址发生了改变。
+</code></pre>
+<h4 id="如果先执行-block代码块中局部变量会保持之前的值之后再去更改局部变量的值对代码块的内容无影响需要注意">如果先执行 block，代码块中<code>局部变量</code>会保持之前的值，之后再去更改局部变量的值，对代码块的内容无影响（需要注意）</h4>
+<pre><code>   int a = 1;
+    void(^editBlcok)(void) = ^{
+        NSLog(@&quot;%d&quot;,a);
+    };
+    a = 10;
+    editBlcok();
+// 控制台输出 1 ；
+</code></pre>
+<h3 id="block在mrc下的内存管理">Block在MRC下的内存管理</h3>
+<p>默认情况下,Block的内存存储在栈中,不需要开发人员对其进行内存管理</p>
+<p>在Block的内存存储在栈中时,如果在Block中引用了外面的对象,不会对所引用的对象进行任何操作</p>
+<p>如果对Block进行一次copy操作,那么Block的内存会被移动到堆中,这时需要开发人员对其进行release操作来管理内存</p>
+<p>如果对Block进行一次copy操作,那么Block的内存会被移动到堆中,在Block的内存存储在堆中时,如果在Block中引用了外面的对象,会对所引用的对象进行一次retain操作,即使在Block自身调用了release操作之后,Block也不会对所引用的对象进行一次release操作,这时会造成内存泄漏</p>
+<p>为了不对所引用的对象进行一次retain操作,可以在对象的前面使用下划线下划线block来修饰</p>
+<pre><code>__block Person *p = [[Person alloc] init];
+        
+void(^myBlock)() = ^{
+    NSLog(@&quot;------%@&quot;, p);
+};
+myBlock();
+</code></pre>
+<p>###总结：</p>
+<h4 id="__block在mrc下有两个作用">__block在MRC下有两个作用</h4>
+<ol>
+<li>允许在Block中访问和修改局部变量</li>
+<li>禁止Block对所引用的对象进行隐式retain操作</li>
+</ol>
+<h4 id="__block在arc下只有一个作用">__block在ARC下只有一个作用</h4>
+<ol>
+<li>允许在Block中访问和修改局部变量</li>
+</ol>
+<h4 id="__weak-解决arc下的循环引用">__weak 解决ARC下的循环引用</h4>
+<p>如果对象内部有一个Block属性,而在Block内部又访问了该对象,那么会造成循环引用</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://https://lohan601410176.github.io/post/hello-gridea/</id>

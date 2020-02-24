@@ -9,7 +9,7 @@
 此时此刻的云，
 二十来岁的你。">
 <meta name="theme-color" content="#000">
-<title>Hello Gridea | 刘艺萌的博客</title>
+<title>iOS中Block的类型 | 刘艺萌的博客</title>
 <link rel="shortcut icon" href="https://https://lohan601410176.github.io/favicon.ico?v=1582534310626">
 <link rel="stylesheet" href="https://https://lohan601410176.github.io/styles/main.css">
 
@@ -28,8 +28,8 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
 
-    <meta name="description" content="Hello Gridea" />
-    <meta name="keywords" content="Gridea" />
+    <meta name="description" content="iOS中Block的类型" />
+    <meta name="keywords" content="iOS" />
   </head>
   <body>
     <div class="head-top-line"></div>
@@ -188,7 +188,32 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E7%89%B9%E6%80%A7">特性👇</a></li>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#block%E5%B8%B8%E8%A7%81%E7%B1%BB%E5%9E%8B3%E7%A7%8D">block常见类型(3种)：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#block%E5%9C%A8arc%E4%B8%8B%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">Block在ARC下的内存管理</a>
+<ul>
+<li><a href="#block%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%AD%E4%BF%AE%E6%94%B9%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F">block代码块中修改<code>局部变量</code></a></li>
+<li><a href="#%E5%A6%82%E6%9E%9C%E5%85%88%E6%89%A7%E8%A1%8C-block%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%AD%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E4%BC%9A%E4%BF%9D%E6%8C%81%E4%B9%8B%E5%89%8D%E7%9A%84%E5%80%BC%E4%B9%8B%E5%90%8E%E5%86%8D%E5%8E%BB%E6%9B%B4%E6%94%B9%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%80%BC%E5%AF%B9%E4%BB%A3%E7%A0%81%E5%9D%97%E7%9A%84%E5%86%85%E5%AE%B9%E6%97%A0%E5%BD%B1%E5%93%8D%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F">如果先执行 block，代码块中<code>局部变量</code>会保持之前的值，之后再去更改局部变量的值，对代码块的内容无影响（需要注意）</a></li>
+</ul>
+</li>
+<li><a href="#block%E5%9C%A8mrc%E4%B8%8B%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">Block在MRC下的内存管理</a>
+<ul>
+<li><a href="#__block%E5%9C%A8mrc%E4%B8%8B%E6%9C%89%E4%B8%A4%E4%B8%AA%E4%BD%9C%E7%94%A8">__block在MRC下有两个作用</a></li>
+<li><a href="#__block%E5%9C%A8arc%E4%B8%8B%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BD%9C%E7%94%A8">__block在ARC下只有一个作用</a></li>
+<li><a href="#__weak-%E8%A7%A3%E5%86%B3arc%E4%B8%8B%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8">__weak 解决ARC下的循环引用</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -441,8 +466,8 @@ window.addEventListener('load', function() {
               <div class="article-box">
     <header class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://https://lohan601410176.github.io/post/hello-gridea/">
-      Hello Gridea
+    <a class="post-title-link" href="https://https://lohan601410176.github.io/post/ios-zhong-block-de-lei-xing/">
+      iOS中Block的类型
     </a>
   </h1>
   <div class="post-meta">
@@ -450,7 +475,7 @@ window.addEventListener('load', function() {
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span>发布于</span>
-      <span>2018-12-12</span>
+      <span>2020-02-24</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -459,8 +484,8 @@ window.addEventListener('load', function() {
         <span class="pc-show">分类于</span>
         
           
-            <a href="https://https://lohan601410176.github.io/tag/Q-jYW4B9Q/">
-              <span>Gridea</span>
+            <a href="https://https://lohan601410176.github.io/tag/NsM7jsSgO/">
+              <span>iOS</span>
             </a>
           
         
@@ -469,38 +494,158 @@ window.addEventListener('load', function() {
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>2分钟</span>
+      <span>6分钟</span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>298<span class="pc-show">字数</span></span>
+      <span>1344<span class="pc-show">字数</span></span>
     </span>
   </div>
 </header>
 </div>
               <div class="post-body next-md-body" id="post_body">
-                <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+                <h5 id="block常见类型3种">block常见类型(3种)：</h5>
+<ul>
+<li>
+<p><code>NSGlobalBlock：全局的静态block 没有访问外部变量</code><br>
+<img src="https://upload-images.jianshu.io/upload_images/1668054-748e66bd3f5c522a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" loading="lazy"></p>
+</li>
+<li>
+<p><code>NSMallocBlock 保存在堆中的block 此类型blcok是用copy修饰出来的block 它会随着对象的销毁而销毁，只要对象不销毁，我们就可以调用的到在堆中的block</code></p>
+</li>
+</ul>
+<pre><code>@interface Person : NSObject
+@property(nonatomic,copy) void(^mallocBlock)(void);
+@end
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://upload-images.jianshu.io/upload_images/1668054-438663d87e97788f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" loading="lazy"></figure>
+<ul>
+<li><code>NSStackBlock：保存在栈中的block，没有用copy去修饰并且访问了外部变量，会在函数调用结束被销毁 （但是要在MRC模式下）</code> <a href="https://www.jianshu.com/p/b37fc6de5e15">ARC改MRC方法</a><br>
+在ARC中的NSStackBlock：</li>
+</ul>
+<pre><code>需要用assign去修饰Block（测试用，工作中用copy最好）
+@property(nonatomic,assign) void(^mallocBlock)(void);
+NSLog(@&quot;%@&quot;,[person.mallocBlock class]);
+//打印结果
+block[22533:1198598] __NSStackBlock__
+//注意一下，在之前iOS8之前，如果用retain去修饰Block和打印结果和assign是一样的
+//但是之后retain修饰Block打印结果就变成了__NSMallocBlock__(应该是苹果修改了)
+//只是警告：Retain'ed block property does not copy the block - use copy attribute instead 让我们使用copy去修饰
+// 但是用strong去修饰Block，打印结果和copy一致，并且不会报错
+</code></pre>
+<pre><code>NSLog(@&quot;StackBlock 当前类型-- %@&quot;,^{
+        NSLog(@&quot;%d&quot;,a);
+    });
+//打印结果：  
+// StackBlock 当前类型-- &lt;__NSStackBlock__: 0x7ffee1f3ca40&gt;
+</code></pre>
+<h3 id="block在arc下的内存管理">Block在ARC下的内存管理</h3>
+<p>在ARC默认情况下,Block的内存存储在堆中,ARC会自动进行内存管理,程序员只需要避免循环引用即可</p>
+<p>在Block的内存存储在堆中时,如果在Block中引用了外面的对象,会对所引用的对象进行强引用,但是在Block被释放时会自动去掉对该对象的强引用,所以不会造成内存泄漏</p>
+<p>如果对象内部有一个Block属性,而在Block内部又访问了该对象,那么会造成循环引用,解决循环引用的办法是使用一个弱引用的指针指向该对象,然后在Block内部使用该弱引用指针来进行操作,这样避免了Block对对象进行强引用<br>
+解决循环引用的方式一：</p>
+<pre><code>@interface Person : NSObject
+@property(nonatomic,copy) void(^mallocBlock)(void);
+@property(nonatomic,copy) NSString * str;
+@end
+</code></pre>
+<pre><code>  Person * person = [[Person alloc] init];
+  person.str = @&quot;外部属性&quot;;
+  __weak Person * personWeak = person;
+  person.mallocBlock = ^{
+        NSLog(@&quot;访问外部变量 %@ 则变成mallocBlock&quot;,personWeak.str);
+  };
+  person.mallocBlock();
+</code></pre>
+<pre><code>@implementation Person
+-(void)dealloc{
+    NSLog(@&quot;释放成功&quot;);
+}
+@end
+</code></pre>
+<p>解决循环引用的方式二：</p>
+<pre><code> Person * p = [[Person alloc] init];
+    //这里用 __block去修饰，是为了在block内部可以对weakP进行修改
+    __block Person * weakP = p;
+    p.myBlock = ^{
+         NSLog(@&quot;%@&quot;,weakP.myBlock);
+        //通过__block修饰可以对weakP进行修改
+        weakP = nil;
+    };
+    p.myBlock();
+</code></pre>
+<p>解决循环引用的方式三(优雅的方式)：</p>
+<pre><code>@interface Person : NSObject
+//定义一个有参数的block类型的成员属性，参数类型是Person（也就是自身的类型）
+@property(nonatomic,copy) void(^myBlock)(Person*);
+@end
+
+</code></pre>
+<pre><code>   Person * p = [[Person alloc] init];
+    p.myBlock = ^(Person * weakP) {
+        NSLog(@&quot;%@&quot;,weakP);
+    };
+     //需要传入一个类型为Person的参数，将p传进去
+    p.myBlock(p);
+</code></pre>
+<h4 id="block代码块中修改局部变量">block代码块中修改<code>局部变量</code></h4>
+<p>直接在block代码中修改局部变量，会报出错误！<br>
+错误信息：Variable is not assignable (missing __block type specifier)<br>
+变量不可分配(缺少__block类型说明符)<br>
+<img src="https://upload-images.jianshu.io/upload_images/1668054-5c71df6f2294bff9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png" loading="lazy"><br>
+所以正确的修改方式是 在局部变量前加__block</p>
+<pre><code>//__block 底层实现：用__block修饰的对象，会修改它的指针地址
+ __block  int a =1;
+    NSLog(@&quot;外部%p&quot;,&amp;a);
+    void(^myBlock)(void) = ^{
+            a++;
+         NSLog(@&quot;%d&quot;,a);
+        NSLog(@&quot;内部%p&quot;,&amp;a);
+    };
+    myBlock();
+NSLog(@&quot;最后外部%p&quot;,&amp;a);
+//打印结果：
+//外部0x7ffee6e21a28
+// 2
+// 内部0x60400023b9f8
+//最后外部0x60400023b9f8
+可以很清楚的看到，用__block修饰以后a的指针地址发生了改变。
+</code></pre>
+<h4 id="如果先执行-block代码块中局部变量会保持之前的值之后再去更改局部变量的值对代码块的内容无影响需要注意">如果先执行 block，代码块中<code>局部变量</code>会保持之前的值，之后再去更改局部变量的值，对代码块的内容无影响（需要注意）</h4>
+<pre><code>   int a = 1;
+    void(^editBlcok)(void) = ^{
+        NSLog(@&quot;%d&quot;,a);
+    };
+    a = 10;
+    editBlcok();
+// 控制台输出 1 ；
+</code></pre>
+<h3 id="block在mrc下的内存管理">Block在MRC下的内存管理</h3>
+<p>默认情况下,Block的内存存储在栈中,不需要开发人员对其进行内存管理</p>
+<p>在Block的内存存储在栈中时,如果在Block中引用了外面的对象,不会对所引用的对象进行任何操作</p>
+<p>如果对Block进行一次copy操作,那么Block的内存会被移动到堆中,这时需要开发人员对其进行release操作来管理内存</p>
+<p>如果对Block进行一次copy操作,那么Block的内存会被移动到堆中,在Block的内存存储在堆中时,如果在Block中引用了外面的对象,会对所引用的对象进行一次retain操作,即使在Block自身调用了release操作之后,Block也不会对所引用的对象进行一次release操作,这时会造成内存泄漏</p>
+<p>为了不对所引用的对象进行一次retain操作,可以在对象的前面使用下划线下划线block来修饰</p>
+<pre><code>__block Person *p = [[Person alloc] init];
+        
+void(^myBlock)() = ^{
+    NSLog(@&quot;------%@&quot;, p);
+};
+myBlock();
+</code></pre>
+<p>###总结：</p>
+<h4 id="__block在mrc下有两个作用">__block在MRC下有两个作用</h4>
+<ol>
+<li>允许在Block中访问和修改局部变量</li>
+<li>禁止Block对所引用的对象进行隐式retain操作</li>
+</ol>
+<h4 id="__block在arc下只有一个作用">__block在ARC下只有一个作用</h4>
+<ol>
+<li>允许在Block中访问和修改局部变量</li>
+</ol>
+<h4 id="__weak-解决arc下的循环引用">__weak 解决ARC下的循环引用</h4>
+<p>如果对象内部有一个Block属性,而在Block内部又访问了该对象,那么会造成循环引用</p>
 
               </div>
               <div class="post-footer">
@@ -511,7 +656,7 @@ window.addEventListener('load', function() {
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://https://lohan601410176.github.io/post/hello-gridea/" title="Hello Gridea">Hello Gridea</a>
+      <a href="https://https://lohan601410176.github.io/post/ios-zhong-block-de-lei-xing/" title="iOS中Block的类型">iOS中Block的类型</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -520,18 +665,18 @@ window.addEventListener('load', function() {
   </ul>
   <div class="tags">
     
-      <a href="https://https://lohan601410176.github.io/tag/Q-jYW4B9Q/"># Gridea</a>
+      <a href="https://https://lohan601410176.github.io/tag/NsM7jsSgO/"># iOS</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="iOS中Block的类型" href="https://https://lohan601410176.github.io/post/ios-zhong-block-de-lei-xing/">iOS中Block的类型</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="iOS中Block的类型" href="https://https://lohan601410176.github.io/post/ios-zhong-block-de-lei-xing/">上一篇</a>
-      
     </div>
     <div class="nav-next">
+      
+        <a class="nav-pc-next" title="Hello Gridea" href="https://https://lohan601410176.github.io/post/hello-gridea/">Hello Gridea</a>
+        <a class="nav-mobile-next" title="Hello Gridea" href="https://https://lohan601410176.github.io/post/hello-gridea/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
